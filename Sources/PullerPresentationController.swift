@@ -45,7 +45,7 @@ final public class PullerPresentationController: UIPresentationController {
     
     private var panGestureRecognizer: UIPanGestureRecognizer?
     private var dimmingView: PullerDimmingView?
-    private lazy var shadowView: PullerShadowView = { PullerShadowView() }()
+    private lazy var shadowView = PullerShadowView()
     private var shadow: Shadow = .default
     private var fromView: UIView { presentingViewController.view }
     private var fromViewController: UIViewController { presentingViewController }
@@ -225,7 +225,7 @@ final public class PullerPresentationController: UIPresentationController {
         screenWidth = size.width
         screenHeight = size.height
 
-        if isFitContent  {
+        if isFitContent {
             let detentValue = defaultViewHeight / screenHeight
             let detent = PullerModel.Detent(rawValue: detentValue)
             apply(detents: [detent])
@@ -724,6 +724,7 @@ final public class PullerPresentationController: UIPresentationController {
             CATransaction.disableAnimations {
                 toView.transform = .identity
                 toView.frame.origin.y = calcPosition(detent: closestDetent)
+                // toView.frame = adjustHeight(y: toView.frame.origin.y) ???
             }
             gesture.setTranslation(.zero, in: toView)
             return
